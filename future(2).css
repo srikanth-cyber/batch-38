@@ -3,9 +3,10 @@
 :root {
     --bg-dark: #050914;
     --neon-blue: #00f3ff;
-    --glass-bg: rgba(10,20,40,0.6);
-    --glass-border: rgba(0,243,255,0.2);
+    --glass-bg: rgba(10, 20, 40, 0.72);
+    --glass-border: rgba(0, 243, 255, 0.25);
     --text-main: #e0e6ed;
+    --safe-height: 100dvh;
 }
 
 * {
@@ -14,34 +15,51 @@
     box-sizing: border-box;
 }
 
+html {
+    width: 100%;
+    min-height: 100%;
+    background: var(--bg-dark);
+    scroll-behavior: smooth;
+}
+
 body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: var(--safe-height);
     background: var(--bg-dark);
     color: var(--text-main);
     font-family: 'Inter', sans-serif;
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
 }
 
 .particles {
     position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(
-            circle,
-            rgba(0,243,255,0.05) 0%,
-            transparent 70%
-        );
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at top, rgba(0, 243, 255, 0.12), transparent 35%),
+        radial-gradient(circle at bottom, rgba(53, 19, 174, 0.25), transparent 45%);
 }
 
 .app-container {
-    width: 95%;
-    max-width: 650px;
-    height: 92vh;
-    border-radius: 24px;
+    width: min(96vw, 720px);
+    height: min(94dvh, 900px);
+    min-height: 520px;
+    border-radius: clamp(18px, 4vw, 28px);
     overflow: hidden;
     position: relative;
 }
@@ -49,23 +67,28 @@ body {
 .glass-panel {
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
 }
 
 .screen {
     position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    padding: 25px;
+    padding: clamp(16px, 4vw, 30px);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
+
+/* Welcome Screen */
 
 #welcome-screen {
     justify-content: center;
@@ -76,78 +99,28 @@ body {
 #welcome-screen::after {
     content: "";
     position: absolute;
-    width: 520px;
-    height: 520px;
+    width: min(90vw, 520px);
+    height: min(90vw, 520px);
     border-radius: 50%;
-    background: radial-gradient(
-        circle,
-        rgba(0, 243, 255, 0.10),
-        transparent 65%
-    );
+    background: radial-gradient(circle, rgba(0, 243, 255, 0.12), transparent 65%);
     z-index: -1;
     animation: auraPulse 4s ease-in-out infinite alternate;
 }
 
 .logo-container {
-    margin-bottom: 30px;
+    margin-bottom: clamp(18px, 4vw, 30px);
     position: relative;
-    padding: 18px 22px 24px;
+    padding: clamp(14px, 4vw, 24px);
     border-radius: 26px;
-    background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.08),
-        rgba(0, 243, 255, 0.04)
-    );
+    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(0,243,255,0.04));
     border: 1px solid rgba(0, 243, 255, 0.28);
     box-shadow:
         0 0 28px rgb(53, 19, 174),
         inset 0 0 25px rgba(255, 255, 255, 0.04);
-        position: relative;
-}
-
-/*.logo-container::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 28px;
-    padding: 2px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        #00f3ff,
-        #ffffff,
-        #00f3ff,
-        transparent
-    );
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: borderGlow 3s linear infinite;
-    pointer-events: none;
-}*/
-/*.logo-container::before {
-    content: "";
-    position: absolute;
-    inset: -3px;
-    border-radius: 30px;
-    background: linear-gradient(
-        90deg,
-        rgba(0, 243, 255, 0.2),
-        rgba(255, 255, 255, 0.8),
-        rgba(0, 243, 255, 0.9),
-        rgba(255, 255, 255, 0.8),
-        rgba(0, 243, 255, 0.2)
-    );
-    z-index: -1;
-    animation: borderGlow 3s linear infinite;
-    pointer-events: none;
-}
-
-.logo-container {
     z-index: 1;
-}*/
+    width: min(100%, 560px);
+}
+
 .logo-container::before {
     content: "";
     position: absolute;
@@ -166,22 +139,19 @@ body {
     pointer-events: none;
 }
 
-.logo-container {
-    z-index: 1;
-}
 .glowing-orb {
-    width: min(60vw, 150px);
-    height: 70px;
+    width: clamp(135px, 40vw, 230px);
+    height: clamp(68px, 16vw, 105px);
     object-fit: contain;
-    padding: 12px 18px;
+    padding: clamp(8px, 2vw, 14px);
     border-radius: 22px;
-    margin-bottom: 22px;
+    margin-bottom: clamp(14px, 4vw, 22px);
     background: rgba(255, 255, 255, 0.96);
     border: 2px solid rgba(255, 255, 255, 0.9);
     box-shadow:
         0 0 12px rgba(132, 134, 214, 0.75),
         0 0 30px rgba(0, 243, 255, 0.65),
-        0 0 65px rgba(256, 243, 255, 0.28);
+        0 0 65px rgba(0, 243, 255, 0.28);
     filter: drop-shadow(0 0 14px rgba(0, 243, 255, 0.7));
     animation: logoFloat 2.8s ease-in-out infinite alternate;
 }
@@ -193,7 +163,9 @@ body {
 h1 {
     font-family: 'Orbitron', sans-serif;
     color: var(--neon-blue);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    line-height: 1.2;
 }
 
 .logo-container h1 {
@@ -204,13 +176,25 @@ h1 {
 
 .logo-container p {
     color: #ffffff;
-    letter-spacing: 2px;
+    letter-spacing: clamp(1px, 0.5vw, 2px);
     text-transform: uppercase;
     text-shadow: 0 0 12px rgba(0, 243, 255, 0.5);
+    font-size: clamp(0.78rem, 2.5vw, 1rem);
 }
 
 .welcome-text {
-    margin-bottom: 30px;
+    margin-bottom: clamp(20px, 5vw, 30px);
+    max-width: 560px;
+}
+
+.welcome-text h2 {
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+    margin-bottom: 8px;
+}
+
+.welcome-text p {
+    font-size: clamp(0.92rem, 2.8vw, 1.05rem);
+    line-height: 1.5;
 }
 
 .neon-btn {
@@ -218,24 +202,35 @@ h1 {
     border: 1px solid var(--neon-blue);
     color: var(--neon-blue);
     padding: 14px 30px;
+    min-height: 48px;
     border-radius: 12px;
     cursor: pointer;
     font-family: 'Orbitron', sans-serif;
     transition: 0.3s;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
 }
 
-.neon-btn:hover {
+.neon-btn:hover,
+.neon-btn:active {
     background: var(--neon-blue);
     color: black;
 }
 
+/* Chat Screen */
+
 .chat-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    flex-shrink: 0;
+}
+
+.chat-header h2 {
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
 }
 
 .status {
     color: lime;
+    font-size: 0.9rem;
 }
 
 .chat-box {
@@ -243,116 +238,144 @@ h1 {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
+    padding-right: 4px;
+    min-height: 120px;
 }
 
 .message {
-    padding: 14px;
+    padding: 13px 14px;
     border-radius: 14px;
-    max-width: 85%;
+    max-width: 88%;
     line-height: 1.5;
+    font-size: clamp(0.9rem, 2.8vw, 1rem);
+    word-wrap: break-word;
 }
 
 .ai-msg {
-    background: rgba(0,243,255,0.1);
+    background: rgba(0, 243, 255, 0.1);
     align-self: flex-start;
 }
 
 .user-msg {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     align-self: flex-end;
 }
 
 .chat-input-area {
     display: flex;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 14px;
+    flex-shrink: 0;
 }
 
 #chat-input {
     flex: 1;
-    background: rgba(0,0,0,0.3);
+    min-width: 0;
+    background: rgba(0, 0, 0, 0.3);
     border: 1px solid var(--glass-border);
     padding: 14px;
     border-radius: 12px;
     color: white;
+    min-height: 48px;
+    font-size: 16px;
+}
+
+#chat-input:focus {
+    outline: 1px solid var(--neon-blue);
 }
 
 .icon-btn {
-    width: 50px;
+    width: 52px;
+    min-width: 52px;
+    min-height: 48px;
     border: none;
     border-radius: 12px;
     background: var(--neon-blue);
     cursor: pointer;
+    font-size: 1.1rem;
 }
 
 .options-container {
     display: grid;
-    flex-direction: column;
-    gap: 3px;
-    margin-top: 5px;
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 12px;
+    flex-shrink: 0;
 }
 
 .option-btn {
-    background: rgba(0,243,255,0.08);
-    border: 1px solid rgba(0,243,255,0.3);
+    background: rgba(0, 243, 255, 0.08);
+    border: 1px solid rgba(0, 243, 255, 0.3);
     color: white;
-    padding: 15px;
+    padding: 14px;
     border-radius: 14px;
     cursor: pointer;
     transition: 0.3s;
-    font-size: 15px;
+    font-size: clamp(0.9rem, 2.8vw, 1rem);
+    min-height: 48px;
 }
 
-.option-btn:hover {
-    background: rgba(0,243,255,0.2);
+.option-btn:hover,
+.option-btn:active {
+    background: rgba(0, 243, 255, 0.2);
     transform: scale(1.02);
 }
 
+/* Scan Screen */
+
 .scan-container {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(18px, 5vw, 30px);
+}
+
+.camera-wrapper {
+    position: relative;
+    width: clamp(230px, 62vw, 330px);
+    height: clamp(230px, 62vw, 330px);
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #camera-feed {
-    width: 260px;
-    height: 260px;
+    width: 92%;
+    height: 92%;
     border-radius: 50%;
     object-fit: cover;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .hud-overlay {
     position: absolute;
-    width: 280px;
-    height: 280px;
+    inset: 0;
+    pointer-events: none;
 }
 
 .hud-circle {
     position: absolute;
-    width: 100%;
-    height: 100%;
     border-radius: 50%;
 }
 
 .outer {
+    inset: 0;
     border: 2px dashed var(--neon-blue);
     animation: rotate 10s linear infinite;
 }
 
 .inner {
-    border: 2px solid rgba(0,243,255,0.3);
-    width: 240px;
-    height: 240px;
-    top: 20px;
-    left: 20px;
+    inset: 7%;
+    border: 2px solid rgba(0, 243, 255, 0.3);
 }
 
 .scan-line {
     position: absolute;
+    left: 0;
     width: 100%;
     height: 2px;
     background: var(--neon-blue);
@@ -361,13 +384,18 @@ h1 {
 
 .scan-ui {
     text-align: center;
-    margin-top: 30px;
+    width: min(100%, 360px);
+}
+
+.scan-ui h3 {
+    font-size: clamp(0.95rem, 3vw, 1.15rem);
+    line-height: 1.4;
 }
 
 .progress-bar-container {
-    width: 250px;
-    height: 5px;
-    background: rgba(255,255,255,0.1);
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
     margin-top: 15px;
     border-radius: 20px;
     overflow: hidden;
@@ -379,47 +407,167 @@ h1 {
     background: var(--neon-blue);
 }
 
+/* Video Screen */
+
+#video-screen {
+    padding: 0;
+    background: #000;
+}
+
+#story-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+}
+
+/* Recommendation Screen */
+
 #recommendation-screen {
-    gap: 20px;
+    gap: 18px;
 }
 
 .recommendation-header {
     text-align: center;
+    flex-shrink: 0;
+}
+
+.recommendation-header h2 {
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+    color: var(--neon-blue);
+}
+
+.recommendation-header p {
+    margin-top: 6px;
+    font-size: clamp(0.9rem, 2.8vw, 1rem);
 }
 
 .glass-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: clamp(15px, 4vw, 22px);
     border-radius: 16px;
     margin-bottom: 15px;
 }
 
 .primary-card {
     border: 2px solid var(--neon-blue);
-    box-shadow:
-        0 0 20px rgba(0,243,255,0.4);
-    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
 }
 
 .plan-card h2 {
     color: var(--neon-blue);
     margin: 10px 0;
+    font-size: clamp(1.1rem, 4vw, 1.55rem);
 }
 
-.plan-card p {
+.plan-card h3 {
+    font-size: clamp(0.95rem, 3vw, 1.15rem);
+}
+
+.plan-card p,
+.glass-card p {
     line-height: 1.5;
+    font-size: clamp(0.9rem, 2.8vw, 1rem);
 }
 
-@keyframes pulse {
-    from {
-        transform: scale(0.9);
+.priority-badge {
+    font-size: clamp(0.78rem, 2.4vw, 0.9rem);
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.restart-btn {
+    width: fit-content;
+    align-self: center;
+    margin-top: 4px;
+}
+
+/* Tablet */
+
+@media (min-width: 700px) {
+    .options-container {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    to {
-        transform: scale(1.1);
+    .message {
+        max-width: 75%;
     }
 }
+
+/* Desktop */
+
+@media (min-width: 1024px) {
+    .app-container {
+        width: min(78vw, 760px);
+        height: min(90vh, 850px);
+    }
+
+    .screen {
+        padding: 32px;
+    }
+}
+
+/* Small Android Phones */
+
+@media (max-width: 420px) {
+    body {
+        align-items: stretch;
+    }
+
+    .app-container {
+        width: 100vw;
+        height: 100dvh;
+        min-height: 100dvh;
+        border-radius: 0;
+    }
+
+    .screen {
+        padding: 16px;
+    }
+
+    .logo-container {
+        width: 100%;
+    }
+
+    .chat-input-area {
+        gap: 8px;
+    }
+
+    .icon-btn {
+        width: 48px;
+        min-width: 48px;
+    }
+}
+
+/* Landscape Mobile */
+
+@media (max-height: 520px) and (orientation: landscape) {
+    .app-container {
+        width: 100vw;
+        height: 100dvh;
+        border-radius: 0;
+    }
+
+    #welcome-screen {
+        justify-content: flex-start;
+    }
+
+    .logo-container {
+        margin-bottom: 12px;
+    }
+
+    .glowing-orb {
+        height: 62px;
+    }
+
+    .camera-wrapper {
+        width: 210px;
+        height: 210px;
+    }
+}
+
+/* Animations */
 
 @keyframes logoFloat {
     from {
@@ -488,17 +636,5 @@ h1 {
 
     to {
         top: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .glowing-orb {
-        width: 92vw;
-        height: 105px;
-        padding: 10px 12px;
-    }
-
-    .logo-container {
-        padding: 14px;
     }
 }

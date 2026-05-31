@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
     <title>Future AI</title>
-    <link rel="stylesheet" href="future(2).css">
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
     <div class="particles"></div>
 
-    <div class="app-container glass-panel">
+    <main class="app-container glass-panel">
 
         <!-- SCREEN 1 -->
-        <section id="welcome-screen" class="screen active">
+        <section id="welcome-screen" class="screen">
 
             <div class="logo-container">
 
-                <img src="logo.jpeg" class="glowing-orb">
+                <img src="logo.jpeg" class="glowing-orb" alt="Future AI Logo">
 
-                <h1>Future AI</h1><br>
-                <h1>BY</h1><br>
-                <h1>Future Banker Batch 38 </h1>
+                <h1>Future AI</h1>
+                <h1>BY</h1>
+                <h1>Future Banker Batch 38</h1>
+
                 <p>Know Your Future</p>
 
             </div>
 
             <div class="welcome-text">
-
                 <h2>Step Into Tomorrow</h2>
 
                 <p>
-                    Experience the next generation of
-                    AI financial protection analysis.
+                    Experience the next generation of AI financial protection analysis.
                 </p>
-
             </div>
 
             <button id="start-btn" class="neon-btn">
@@ -49,13 +49,8 @@
         <section id="chat-screen" class="screen hidden">
 
             <div class="chat-header">
-
                 <h2>AI Assistant</h2>
-
-                <span class="status">
-                    Online
-                </span>
-
+                <span class="status">Online</span>
             </div>
 
             <div id="chat-box" class="chat-box"></div>
@@ -66,6 +61,7 @@
                     type="text"
                     id="chat-input"
                     placeholder="Type your name..."
+                    autocomplete="off"
                 >
 
                 <button id="send-btn" class="icon-btn">
@@ -74,31 +70,29 @@
 
             </div>
 
-            <div id="options-container"
-                class="options-container">
-            </div>
+            <div id="options-container" class="options-container"></div>
 
         </section>
 
         <!-- SCREEN 3 -->
-        <section id="scan-screen"
-            class="screen hidden">
+        <section id="scan-screen" class="screen hidden">
 
             <div class="scan-container">
 
-                <video id="camera-feed"
-                    autoplay
-                    muted
-                    playsinline>
-                </video>
+                <div class="camera-wrapper">
 
-                <div class="hud-overlay">
+                    <video
+                        id="camera-feed"
+                        autoplay
+                        muted
+                        playsinline>
+                    </video>
 
-                    <div class="hud-circle outer"></div>
-
-                    <div class="hud-circle inner"></div>
-
-                    <div class="scan-line"></div>
+                    <div class="hud-overlay">
+                        <div class="hud-circle outer"></div>
+                        <div class="hud-circle inner"></div>
+                        <div class="scan-line"></div>
+                    </div>
 
                 </div>
 
@@ -109,16 +103,10 @@
                     </h3>
 
                     <div class="progress-bar-container">
-
-                        <div id="scan-progress"
-                            class="progress-bar">
-                        </div>
-
+                        <div id="scan-progress" class="progress-bar"></div>
                     </div>
 
-                    <p id="scan-percentage">
-                        0%
-                    </p>
+                    <p id="scan-percentage">0%</p>
 
                 </div>
 
@@ -127,52 +115,38 @@
         </section>
 
         <!-- SCREEN 4 -->
-        <section id="video-screen"
-            class="screen hidden">
+        <section id="video-screen" class="screen hidden">
 
-            <video id="story-video"
+            <video
+                id="story-video"
                 controls
-                playsinline
-                style="
-                    width:100%;
-                    height:100%;
-                    object-fit:cover;
-                ">
+                playsinline>
             </video>
 
         </section>
 
         <!-- SCREEN 5 -->
-        <section id="recommendation-screen"
-            class="screen hidden">
+        <section id="recommendation-screen" class="screen hidden">
 
             <div class="recommendation-header">
-
-                <h2>
-                    Personalized Protection Blueprint
-                </h2>
+                <h2>Personalized Protection Blueprint</h2>
 
                 <p>
                     Based on your financial profile
                 </p>
-
             </div>
 
             <div id="dynamic-summary"></div>
 
-            <button class="neon-btn"
-                onclick="location.reload()">
-
+            <button class="neon-btn restart-btn" onclick="location.reload()">
                 Restart Analysis
-
             </button>
 
         </section>
 
-    </div>
+    </main>
 
-    <script src="future2.js"></script>
+    <script src="script.js"></script>
 
 </body>
-
 </html>

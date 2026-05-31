@@ -170,8 +170,8 @@ body {
     z-index: 1;
 }
 .glowing-orb {
-    width: min(88vw, 360px);
-    height: 122px;
+    width: min(60vw, 150px);
+    height: 70px;
     object-fit: contain;
     padding: 12px 18px;
     border-radius: 22px;
